@@ -1,3 +1,6 @@
+@extends('app')
+
+@section('content')
 <a href="{{route('accounts.index')}}">Back</a>
 
 
@@ -10,3 +13,5 @@
     @enderror
     <input type="submit" value="Track">
 </form>
+
+@endsection

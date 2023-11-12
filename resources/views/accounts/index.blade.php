@@ -1,3 +1,6 @@
+@extends('app')
+
+@section('content')
 
 <div>
     <a href="{{route('accounts.create')}}">Track New Account</a>
@@ -35,3 +38,5 @@
 
     {{$accounts->links()}}
 </div>
+
+@endsection

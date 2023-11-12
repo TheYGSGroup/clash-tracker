@@ -1,6 +1,8 @@
-<a href="{{route('accounts.index')}}">Back</a>
+@extends('app')
 
-<h1>{{$account->player_tag}}</h1>
+
+@section('content')
+<a href="{{route('accounts.index')}}">Back</a>
 
 @if (!is_null($account->player_data))
     <h1>Townhall: {{$account->player_data["townHallLevel"]}}</h1>
@@ -9,7 +11,7 @@
         <div>
             <h2>Heroes</h2>
             @foreach($account->player_data["heroes"] as $hero)
-                <p>{{$hero["name"]}}: <progress value="{{$hero["level"]}}" max="{{$hero["maxLevel"]}}"></progress></p>
+                <p>{{$hero["name"]}}: <progress value="{{$hero["level"]}}" max="{{$hero["maxLevel"]}}"></progress> {{ $hero["level"] / $hero["maxLevel"] }} </p>
             @endforeach
         </div>
     @endif
@@ -29,3 +31,5 @@
     </div>
 @endif
 
+
+@endsection
