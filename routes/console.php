@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\Account;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Http;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,23 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+Artisan::command('clash:pull', function() {
+    $accounts = Account::all();
+
+    foreach ($accounts as $account) {
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . env("CLASH_OF_CLANS_API_TOKEN", "")
+        ])->withUrlParameters([
+            'player' => $account->player_tag
+        ])->get('https://api.clashofclans.com/v1/players/{player}');
+
+
+        if($response->successful()) {
+            $account->update([
+                'player_data' => $response->json()
+            ]);
+        }
+    }
+});

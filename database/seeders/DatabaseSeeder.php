@@ -12,6 +12,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        \App\Models\Account::factory()->create([
+            'player_tag' => '#LCU22LL09'
+        ]);
+
+        \App\Models\Account::factory()->create([
+            'player_tag' => '#V2VRG822'
+        ]);
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
