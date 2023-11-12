@@ -10,4 +10,8 @@ class Account extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    protected $casts = [
+        'player_data' => 'array'
+    ];
 }
