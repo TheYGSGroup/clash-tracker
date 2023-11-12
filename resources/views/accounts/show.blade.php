@@ -4,32 +4,46 @@
 @section('content')
 <a href="{{route('accounts.index')}}">Back</a>
 
-@if (!is_null($account->player_data))
-    <h1>Townhall: {{$account->player_data["townHallLevel"]}}</h1>
+<x-bladewind.card has_shadow="true" title="Heroes">
+    @foreach($account->player_data["heroes"] as $hero)
+        <p>{{$hero["name"]}}</p>
 
-    @if($account->player_data["townHallLevel"] >= 7)
-        <div>
-            <h2>Heroes</h2>
-            @foreach($account->player_data["heroes"] as $hero)
-                <p>{{$hero["name"]}}: <progress value="{{$hero["level"]}}" max="{{$hero["maxLevel"]}}"></progress> {{ $hero["level"] / $hero["maxLevel"] }} </p>
-            @endforeach
-        </div>
-    @endif
+        @php
+            $percentage = round($hero["level"]/$hero["maxLevel"]*100);
+        @endphp
 
-    <div>
-        <h2>Spells</h2>
-        @foreach($account->player_data["spells"] as $spell)
-            <p>{{$spell["name"]}}: <progress value="{{$spell["level"]}}" max="{{$spell["maxLevel"]}}"></progress></p>
-        @endforeach
-    </div>
+        <x-bladewind.progress-bar percentage="{{($percentage > 100) ? 100 : $percentage}}" show_percentage_label_inline="false"
+            percentage_label_position="top right"
+            show_percentage_label="true"/>
+    @endforeach
+</x-bladewind.card>
 
-    <div>
-        <h2>Troops</h2>
-        @foreach($account->player_data["troops"] as $troop)
-            <p>{{$troop["name"]}}: <progress value="{{$troop["level"]}}" max="{{$troop["maxLevel"]}}"></progress></p>
-        @endforeach
-    </div>
-@endif
+<x-bladewind.card has_shadow="true" class="mt-2" title="Spells">
+    @foreach($account->player_data["spells"] as $spell)
+        <p>{{$spell["name"]}}</p>
 
+        @php
+            $percentage = round($spell["level"]/$spell["maxLevel"]*100);
+        @endphp
+
+        <x-bladewind.progress-bar percentage="{{($percentage > 100) ? 100 : $percentage}}" show_percentage_label_inline="false"
+            percentage_label_position="top right"
+            show_percentage_label="true"/>
+    @endforeach
+</x-bladewind.card>
+
+<x-bladewind.card has_shadow="true" class="mt-2" title="Troops">
+    @foreach($account->player_data["troops"] as $troop)
+        <p>{{$troop["name"]}}</p>
+
+        @php
+            $percentage = round($troop["level"]/$troop["maxLevel"]*100);
+        @endphp
+
+        <x-bladewind.progress-bar percentage="{{($percentage > 100) ? 100 : $percentage}}" show_percentage_label_inline="false"
+            percentage_label_position="top right"
+            show_percentage_label="true"/>
+    @endforeach
+</x-bladewind.card>
 
 @endsection
