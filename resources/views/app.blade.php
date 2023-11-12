@@ -10,7 +10,10 @@
 
 </head>
 <body>
-    @yield('content')
+    <x-bladewind.centered-content size="big" class="p-5">
+        @yield('content')
+    </x-bladewind.centered-content>
+
 
     <script src="{{ asset('vendor/bladewind/js/helpers.js') }}"></script>
 
