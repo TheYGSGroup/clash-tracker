@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
+use Illuminate\Support\Facades\Http;
 use App\Http\Requests\StoreAccountRequest;
 use App\Http\Requests\UpdateAccountRequest;
-use App\Models\Account;
 
 class AccountController extends Controller
 {
@@ -31,8 +32,25 @@ class AccountController extends Controller
      */
     public function store(StoreAccountRequest $request)
     {
-        Account::create($request->validated());
-        return redirect()->route('accounts.index');
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . env("CLASH_OF_CLANS_API_TOKEN", "")
+        ])->withUrlParameters([
+            'player' => $request->validated('player_tag')
+        ])->get('https://api.clashofclans.com/v1/players/{player}');
+
+
+        if($response->successful()) {
+            $account = Account::create($request->validated());
+
+            $account->update([
+                'player_data' => $response->json()
+            ]);
+            return redirect()->route('accounts.index');
+        } else {
+            return redirect()->back()->withErrors([
+                'player_tag' => 'Could not load account with tag ' . $request->validated('player_tag') . '.'
+            ]);
+        }
     }
 
     /**

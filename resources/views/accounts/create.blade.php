@@ -8,7 +8,7 @@
 <form action="{{route('accounts.store')}}" method="POST">
     @csrf
 
-    <x-bladewind.input type="text" name="player_tag"  label="Player Tag" placeholder="#OOOOOOOO"/>
+    <x-bladewind.input type="text" name="player_tag" label="Player Tag" placeholder="#OOOOOOOO"/>
 
     @error('player_tag')
         <x-bladewind.alert
